@@ -1,96 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* MediAgenda Design System - Professional Medical SaaS */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Clean light background for medical environment */
+    --background: 210 20% 98%;
+    --foreground: 220 25% 15%;
 
+    /* Cards with subtle warmth */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary: Professional teal-blue for medical trust */
+    --primary: 195 85% 40%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary: Soft gray for UI elements */
+    --secondary: 210 15% 94%;
+    --secondary-foreground: 220 25% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted: For less prominent text */
+    --muted: 210 15% 92%;
+    --muted-foreground: 220 10% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent: Warm touch */
+    --accent: 195 75% 95%;
+    --accent-foreground: 195 85% 30%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 195 85% 40%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Appointment status colors */
+    --status-pending: 45 95% 50%;
+    --status-pending-bg: 45 95% 95%;
+    --status-confirmed: 145 70% 40%;
+    --status-confirmed-bg: 145 70% 95%;
+    --status-rescheduled: 210 85% 55%;
+    --status-rescheduled-bg: 210 85% 95%;
+    --status-cancelled: 220 10% 50%;
+    --status-cancelled-bg: 220 10% 95%;
+    --status-noshow: 0 75% 55%;
+    --status-noshow-bg: 0 75% 95%;
+    --status-completed: 195 85% 40%;
+    --status-completed-bg: 195 85% 95%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* KPI colors */
+    --kpi-success: 145 70% 40%;
+    --kpi-warning: 35 95% 50%;
+    --kpi-danger: 0 75% 55%;
+    --kpi-info: 195 85% 40%;
 
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 25% 25%;
+    --sidebar-primary: 195 85% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 195 75% 95%;
+    --sidebar-accent-foreground: 195 85% 30%;
+    --sidebar-border: 210 20% 92%;
+    --sidebar-ring: 195 85% 40%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 220 25% 10%;
+    --foreground: 210 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 25% 13%;
+    --card-foreground: 210 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 25% 13%;
+    --popover-foreground: 210 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 195 80% 50%;
+    --primary-foreground: 220 25% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 220 20% 18%;
+    --secondary-foreground: 210 20% 90%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 220 20% 18%;
+    --muted-foreground: 210 15% 60%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 220 20% 18%;
+    --accent-foreground: 195 80% 60%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 210 20% 95%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 220 20% 20%;
+    --input: 220 20% 20%;
+    --ring: 195 80% 50%;
+
+    --sidebar-background: 220 25% 10%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 195 80% 50%;
+    --sidebar-primary-foreground: 220 25% 10%;
+    --sidebar-accent: 220 20% 18%;
+    --sidebar-accent-foreground: 195 80% 60%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-ring: 195 80% 50%;
   }
 }
 
@@ -100,6 +121,50 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Status badge variants */
+  .status-pending {
+    @apply bg-[hsl(var(--status-pending-bg))] text-[hsl(45,80%,30%)] border border-[hsl(var(--status-pending))]/30;
+  }
+  
+  .status-confirmed {
+    @apply bg-[hsl(var(--status-confirmed-bg))] text-[hsl(145,70%,25%)] border border-[hsl(var(--status-confirmed))]/30;
+  }
+  
+  .status-rescheduled {
+    @apply bg-[hsl(var(--status-rescheduled-bg))] text-[hsl(210,85%,35%)] border border-[hsl(var(--status-rescheduled))]/30;
+  }
+  
+  .status-cancelled {
+    @apply bg-[hsl(var(--status-cancelled-bg))] text-[hsl(220,10%,35%)] border border-[hsl(var(--status-cancelled))]/30;
+  }
+  
+  .status-no_show {
+    @apply bg-[hsl(var(--status-noshow-bg))] text-[hsl(0,75%,35%)] border border-[hsl(var(--status-noshow))]/30;
+  }
+  
+  .status-completed {
+    @apply bg-[hsl(var(--status-completed-bg))] text-[hsl(195,85%,25%)] border border-[hsl(var(--status-completed))]/30;
+  }
+
+  /* KPI Card variants */
+  .kpi-success {
+    @apply border-l-4 border-l-[hsl(var(--kpi-success))];
+  }
+  
+  .kpi-warning {
+    @apply border-l-4 border-l-[hsl(var(--kpi-warning))];
+  }
+  
+  .kpi-danger {
+    @apply border-l-4 border-l-[hsl(var(--kpi-danger))];
+  }
+  
+  .kpi-info {
+    @apply border-l-4 border-l-[hsl(var(--kpi-info))];
   }
 }
