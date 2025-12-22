@@ -6,7 +6,8 @@ import {
   UserCog, 
   Settings, 
   LogOut,
-  Stethoscope
+  Stethoscope,
+  BarChart3
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
@@ -16,6 +17,7 @@ const navItems = [
   { icon: Calendar, label: 'Agenda', path: '/agenda' },
   { icon: Users, label: 'Pacientes', path: '/patients' },
   { icon: Stethoscope, label: 'Médicos', path: '/doctors' },
+  { icon: BarChart3, label: 'Reportes', path: '/reports' },
   { icon: Settings, label: 'Configuración', path: '/settings' },
 ];
 
