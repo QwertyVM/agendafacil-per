@@ -72,50 +72,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, fullName: string, clinicName: string) => {
-    try {
-      // First create the clinic
-      const { data: clinicData, error: clinicError } = await supabase
-        .from('clinics')
-        .insert({ name: clinicName })
-        .select()
-        .single();
-
-      if (clinicError) throw clinicError;
-
-      // Then sign up the user
-      const redirectUrl = `${window.location.origin}/`;
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            full_name: fullName,
-            clinic_id: clinicData.id
-          }
+    const redirectUrl = `${window.location.origin}/`;
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: redirectUrl,
+        data: {
+          full_name: fullName,
+          clinic_name: clinicName
         }
-      });
-
-      if (authError) throw authError;
-
-      // Create the profile
-      if (authData.user) {
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            user_id: authData.user.id,
-            clinic_id: clinicData.id,
-            full_name: fullName,
-            role: 'admin'
-          });
-
-        if (profileError) throw profileError;
       }
-
-      return { error: null };
-    } catch (error) {
-      return { error: error as Error };
-    }
+    });
+    return { error: error as Error | null };
   };
 
   const signOut = async () => {
