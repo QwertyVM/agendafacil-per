@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Appointment, AppointmentStatus, DashboardKPIs } from '@/types/database';
 import { useToast } from '@/hooks/use-toast';
@@ -9,24 +9,62 @@ export function useAppointments(selectedDate: Date) {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const fetchAppointments = async () => {
+  // Avoid refetch loops when a new Date() instance is passed on each render
+  const dateStr = useMemo(() => format(selectedDate, 'yyyy-MM-dd'), [selectedDate]);
+
+  // Protect against StrictMode double-effects / race conditions
+  const requestIdRef = useRef(0);
+  const isMountedRef = useRef(false);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      requestIdRef.current += 1; // invalidate any in-flight request
+    };
+  }, []);
+
+  const fetchAppointments = useCallback(async () => {
+    requestIdRef.current += 1;
+    const requestId = requestIdRef.current;
+
     try {
-      setLoading(true);
-      const dateStr = format(selectedDate, 'yyyy-MM-dd');
-      
+      if (isMountedRef.current) setLoading(true);
+
+      // Ensure auth session exists before querying protected tables
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session) {
+        // No session yet (e.g. right after login redirect) → don't toast an error
+        if (requestId === requestIdRef.current && isMountedRef.current) {
+          setAppointments([]);
+        }
+        return;
+      }
+
       const { data, error } = await supabase
         .from('appointments')
-        .select(`
+        .select(
+          `
           *,
           doctor:doctors(*),
           patient:patients(*)
-        `)
+        `
+        )
         .eq('appointment_date', dateStr)
         .order('start_time', { ascending: true });
 
       if (error) throw error;
-      setAppointments((data || []) as unknown as Appointment[]);
+
+      if (requestId === requestIdRef.current && isMountedRef.current) {
+        setAppointments((data || []) as unknown as Appointment[]);
+      }
     } catch (error) {
+      // Ignore errors from stale/aborted requests
+      if (requestId !== requestIdRef.current || !isMountedRef.current) return;
+
       console.error('Error fetching appointments:', error);
       toast({
         title: 'Error',
@@ -34,13 +72,15 @@ export function useAppointments(selectedDate: Date) {
         variant: 'destructive',
       });
     } finally {
-      setLoading(false);
+      if (requestId === requestIdRef.current && isMountedRef.current) {
+        setLoading(false);
+      }
     }
-  };
+  }, [dateStr, toast]);
 
   useEffect(() => {
     fetchAppointments();
-  }, [selectedDate]);
+  }, [fetchAppointments]);
 
   const updateStatus = async (id: string, status: AppointmentStatus) => {
     try {
