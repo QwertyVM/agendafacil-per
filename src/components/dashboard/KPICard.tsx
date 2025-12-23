@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -13,7 +14,8 @@ interface KPICardProps {
   };
 }
 
-export function KPICard({ title, value, subtitle, icon: Icon, variant = 'info', trend }: KPICardProps) {
+export const KPICard = forwardRef<HTMLDivElement, KPICardProps>(
+  ({ title, value, subtitle, icon: Icon, variant = 'info', trend }, ref) => {
   const variantClasses = {
     success: 'kpi-success',
     warning: 'kpi-warning',
@@ -28,11 +30,14 @@ export function KPICard({ title, value, subtitle, icon: Icon, variant = 'info', 
     info: 'bg-kpi-info/10 text-kpi-info',
   };
 
-  return (
-    <div className={cn(
-      "bg-card rounded-xl p-5 shadow-sm animate-fade-in",
-      variantClasses[variant]
-    )}>
+    return (
+      <div 
+        ref={ref}
+        className={cn(
+          "bg-card rounded-xl p-5 shadow-sm animate-fade-in",
+          variantClasses[variant]
+        )}
+      >
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
@@ -54,8 +59,11 @@ export function KPICard({ title, value, subtitle, icon: Icon, variant = 'info', 
           iconBgClasses[variant]
         )}>
           <Icon className="h-6 w-6" />
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+);
+
+KPICard.displayName = 'KPICard';
