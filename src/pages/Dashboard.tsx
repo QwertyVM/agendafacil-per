@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { KPICard } from '@/components/dashboard/KPICard';
 import { AppointmentList } from '@/components/appointments/AppointmentList';
@@ -8,8 +9,8 @@ import { es } from 'date-fns/locale';
 
 export default function Dashboard() {
   const { kpis, loading: kpisLoading } = useDashboardKPIs();
-  const today = new Date();
-  const { 
+  const today = useMemo(() => new Date(), []);
+  const {
     appointments, 
     loading: appointmentsLoading,
     updateStatus,
